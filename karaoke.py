@@ -4,7 +4,8 @@ from discord.ext import  commands
 import asyncio
 import time
 import os
-
+from datetime import date
+import calendar
 
 PREFIX = "-"
 
@@ -121,7 +122,9 @@ def getServerList(serverId):
     
 
 async def sayList(userList):
-    description = ("It's Friday!!!\n\n")
+    actualDate = date.today()
+    dayOfWeek = calendar.day_name[actualDate.weekday()]
+    description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
     for i in range(len(userList)):
         user = userList[i]
