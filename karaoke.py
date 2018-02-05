@@ -40,7 +40,7 @@ async def remove(ctx):
         args = ctx.message.content.split(" ")
         userIndex = int(args[1])-1
         if userIndex >= 0 and userIndex < len(userList):
-            userList.pop(userIndex-1)
+            userList.pop(userIndex)
         await sayList(userList)
     
 @bot.command(pass_context=True)
