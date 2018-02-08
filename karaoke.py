@@ -4,8 +4,7 @@ from discord.ext import  commands
 import asyncio
 import time
 import os
-from datetime import date
-import calendar
+
 
 PREFIX = "-"
 
@@ -33,17 +32,12 @@ async def leave(ctx):
     userList = getServerList(ctx.message.server.id)
     userList.remove(user)    
     await sayList(userList)
-    
+
 @bot.command(pass_context=True)
-async def remove(ctx):
-    if await isAdmin(ctx.message.author):
-        userList = getServerList(ctx.message.server.id)
-        args = ctx.message.content.split(" ")
-        userIndex = int(args[1])-1
-        if userIndex >= 0 and userIndex < len(userList):
-            userList.pop(userIndex)
-        await sayList(userList)
-    
+async def q(ctx):
+    userList = getServerList(ctx.message.server.id)
+    await sayList(userList)
+
 @bot.command(pass_context=True)
 async def sing(ctx):
     if await isAdmin(ctx.message.author):
@@ -62,21 +56,15 @@ async def sing(ctx):
             userOnTop = userList[0]
             await bot.say("<@{}> Sing!".format(userOnTop.id))
             
-def singNext(userList):
-    userOnTop = userList.pop(0)
-    userList.append(userOnTop) 
-    
-def singJump(userList, userIndex):
-    if userIndex > 0 and userIndex < len(userList):
-        userToJump = userList.pop(userIndex)
-        userOnTop = userList.pop(0)
-        userList.append(userOnTop)        
-        userList.insert(0, userToJump)     
-    
 @bot.command(pass_context=True)
-async def q(ctx):
-    userList = getServerList(ctx.message.server.id)
-    await sayList(userList)
+async def remove(ctx):
+    if await isAdmin(ctx.message.author):
+        userList = getServerList(ctx.message.server.id)
+        args = ctx.message.content.split(" ")
+        userIndex = int(args[1])-1
+        if userIndex >= 0 and userIndex < len(userList):
+            userList.pop(userIndex)
+        await sayList(userList)
     
 @bot.command(pass_context=True)
 async def clear(ctx):
@@ -84,7 +72,7 @@ async def clear(ctx):
         userList = getServerList(ctx.message.server.id)
         userList.clear()
         await sayList(userList)
-    
+
 @bot.command()
 async def help(*args):
     description = ("\n")
@@ -101,6 +89,15 @@ async def help(*args):
     
     await bot.say(embed=embed)
 
+def getServerList(serverId):
+    userList = None
+    if serverId in userListPerServer:
+        userList = userListPerServer[serverId]
+    else:
+        userList = []
+        userListPerServer[serverId] = userList
+    return userList
+
 async def isAdmin(author):
     if author.server_permissions.administrator:
         return True
@@ -110,25 +107,15 @@ async def isAdmin(author):
         await bot.say("call an admin!")
         return False
 
-def getServerList(serverId):
-    userList = None
-    if serverId in userListPerServer:
-        userList = userListPerServer[serverId]
-    else:
-        userList = []
-        userListPerServer[serverId] = userList
-    return userList
-        
-    
-
 async def sayList(userList):
-    actualDate = date.today()
-    dayOfWeek = calendar.day_name[actualDate.weekday()]
-    description = "It's {}!!!\n\n".format(dayOfWeek)
+    description = ("It's Friday!!!\n\n")
     singer = None
     for i in range(len(userList)):
         user = userList[i]
-        userLine = str(user.name)
+        userLine = user.nick
+        if userLine == None:
+            userLine = user.name
+        userLine = str(userLine)
         if i == 0:
             userLine = "**{}** :musical_note:".format(userLine)
             singer = user
@@ -143,5 +130,16 @@ async def sayList(userList):
     embed.set_footer(text="\nCome! Join up!")
 
     await bot.say(embed=embed)
+     
+def singNext(userList):
+    userOnTop = userList.pop(0)
+    userList.append(userOnTop) 
+    
+def singJump(userList, userIndex):
+    if userIndex > 0 and userIndex < len(userList):
+        userToJump = userList.pop(userIndex)
+        userOnTop = userList.pop(0)
+        userList.append(userOnTop)        
+        userList.insert(0, userToJump)
     
 bot.run(os.environ.get('TOKEN'))
