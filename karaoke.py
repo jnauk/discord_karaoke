@@ -4,7 +4,8 @@ from discord.ext import  commands
 import asyncio
 import time
 import os
-
+from datetime import date
+import calendar
 
 PREFIX = "-"
 
@@ -108,7 +109,9 @@ async def isAdmin(author):
         return False
 
 async def sayList(userList):
-    description = ("It's Friday!!!\n\n")
+    actualDate = date.today()
+    dayOfWeek = calendar.day_name[actualDate.weekday()]
+    description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
     for i in range(len(userList)):
         user = userList[i]
@@ -142,4 +145,5 @@ def singJump(userList, userIndex):
         userList.append(userOnTop)        
         userList.insert(0, userToJump)
     
-bot.run(os.environ.get('TOKEN'))
+#bot.run(os.environ.get('TOKEN'))
+bot.run("NDA5MDEzOTcyNDc0NTI3NzQ1.DVYcEQ.AOPcoSPZpsW7k4bpSpU-fHXwn_8")
