@@ -4,8 +4,9 @@ from discord.ext import  commands
 import asyncio
 import time
 import os
-from datetime import date
+from datetime import datetime
 import calendar
+from pytz import timezone
 
 PREFIX = "-"
 
@@ -109,7 +110,7 @@ async def isAdmin(author):
         return False
 
 async def sayList(userList):
-    actualDate = date.today()
+    actualDate = datetime.now(timezone('US/Mountain'))
     dayOfWeek = calendar.day_name[actualDate.weekday()]
     description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
