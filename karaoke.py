@@ -146,5 +146,4 @@ def singJump(userList, userIndex):
         userList.append(userOnTop)        
         userList.insert(0, userToJump)
     
-#bot.run(os.environ.get('TOKEN'))
-bot.run("NDA5MDEzOTcyNDc0NTI3NzQ1.DVYcEQ.AOPcoSPZpsW7k4bpSpU-fHXwn_8")
+bot.run(os.environ.get('TOKEN'))
