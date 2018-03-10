@@ -6,7 +6,7 @@ import time
 import os
 from datetime import datetime
 import calendar
-from pytz import timezone
+#from pytz import timezone
 
 PREFIX = "-"
 
@@ -110,8 +110,11 @@ async def isAdmin(author):
         return False
 
 async def sayList(userList):
-    actualDate = datetime.now(timezone('US/Mountain'))
+    #actualDate = datetime.now(timezone('US/Mountain'))
+    #dayOfWeek = calendar.day_name[actualDate.weekday()]
+    actualDate = date.today()
     dayOfWeek = calendar.day_name[actualDate.weekday()]
+    
     description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
     for i in range(len(userList)):
