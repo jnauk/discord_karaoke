@@ -1,2 +1,2 @@
 discord
-pitz==2017.03
+pitz==1.2.2
