@@ -1,2 +1,2 @@
 discord
-pitz==1.2.1
+pitz
