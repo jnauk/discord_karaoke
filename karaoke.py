@@ -1,12 +1,8 @@
 import discord
-from discord.ext.commands import Bot
 from discord.ext import  commands
-import asyncio
-import time
 import os
-from datetime import datetime
+import pendulum
 import calendar
-from pytz import timezone
 
 PREFIX = "-"
 
@@ -15,6 +11,8 @@ bot = commands.Bot(command_prefix=PREFIX, pm_help = False)
 bot.remove_command("help")
 
 userListPerServer = {}
+
+tz = pendulum.timezone('US/Mountain')
 
 @bot.event
 async def on_ready():
@@ -110,7 +108,7 @@ async def isAdmin(author):
         return False
 
 async def sayList(userList):
-    actualDate = datetime.now(timezone('US/Mountain'))
+    actualDate = pendulum.now(tz)
     dayOfWeek = calendar.day_name[actualDate.weekday()]
     description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
