@@ -5,9 +5,8 @@ import asyncio
 import time
 import os
 from datetime import datetime
-from datetime import date
 import calendar
-#from pytz import timezone
+from pytz import timezone
 
 PREFIX = "-"
 
@@ -111,11 +110,8 @@ async def isAdmin(author):
         return False
 
 async def sayList(userList):
-    #actualDate = datetime.now(timezone('US/Mountain'))
-    #dayOfWeek = calendar.day_name[actualDate.weekday()]
-    actualDate = date.today()
+    actualDate = datetime.now(timezone('US/Mountain'))
     dayOfWeek = calendar.day_name[actualDate.weekday()]
-    
     description = "It's {}!!!\n\n".format(dayOfWeek)
     singer = None
     for i in range(len(userList)):
@@ -133,8 +129,10 @@ async def sayList(userList):
     embed.title = "Karaoke Singers"
     #embed.set_author(name="Karaoke")
     if singer is not None:
-    #    print(singer.avatar_url)
-        embed.set_thumbnail(url=singer.avatar_url)
+        thumbnail = singer.avatar_url
+        # thumbnail = thumbnail.replace(".webp?", ".jpeg?") # firefox doesn't support webp
+        print(thumbnail)
+        embed.set_thumbnail(url=thumbnail)
     embed.set_footer(text="\nCome! Join up!")
 
     await bot.say(embed=embed)
