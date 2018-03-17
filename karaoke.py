@@ -4,7 +4,7 @@ import os
 import pendulum
 import calendar
 
-PREFIX = "-"
+PREFIX = "--"
 
 Client = discord.Client()
 bot = commands.Bot(command_prefix=PREFIX, pm_help = False)
